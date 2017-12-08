@@ -1,22 +1,32 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
 
-public class DBConnection{
-
+class DBMain{
 	static String url = "jdbc:mysql://localhost/info";
 	static String user = "root";
 	static String pass = "426795";
+	int presentid = 0;
+	int[] cat = {0, 0, 0, 0, 0, 0, 0, 0};
+	//int inc = 0;
+	//int exp = 0;
+	Connection conn = null;
+	Statement st = null;
 
-	public static void main(String[] args) {
+	//enum grp{Din, Caf, Dri, Lif, Sho, Bea, Tra, Lei}
+
+	public DBMain() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			//드라이버 접속
 		} catch(ClassNotFoundException e) {
 			System.out.println("드라이버 검색 실패!");
 		}
-
-		Connection conn = null;
 
 		try {
 			conn = DriverManager.getConnection(url, user, pass);
@@ -25,111 +35,94 @@ public class DBConnection{
 			System.out.println("My-SQL 접속 실패!");
 		}
 
-		java.sql.Statement st = null;	//
-		ResultSet rs = null;
-
-		try {	//DB의 user테이블에서 데이터를 가져와 출력
-			st = conn.createStatement();
-			rs = st.executeQuery("SELECT date, money, category FROM user");
-
-			while(rs.next()) {
-				String date = rs.getString("date");
-				int money = rs.getInt("money");
-				String category = rs.getString("category");
-
-				System.out.print("date : " + date);
-				System.out.print(", money : " + money);
-				System.out.println(", category : " + category);
-			}
-
-			rs.close();
-			//st.close();			
-			//conn.close();
-		}catch(SQLException e) {
-			System.out.println("SQLException : " + e.getMessage());
-		}
-
-		int rs2;
-		String date="";
-		int money=0;
-		String category="";
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
-		System.out.print("날짜를 입력하세요 : ");
-		try{
-			date = in.readLine();
-		}catch(Exception e) {
-			System.out.println("입력 실패");
-		}
-
-		System.out.print("금액을 입력하세요 : ");
-		try{
-			money = Integer.parseInt(in.readLine());
-		}catch(Exception e) {
-			System.out.println("입력 실패");
-		}
-
-		System.out.print("항목을 입력하세요 : ");
-		try{
-			category = in.readLine();
-		}catch(Exception e) {
-			System.out.println("입력 실패");
-		}
-
-
-		try {	//입력한 데이터를 DB의 user테이블에 삽입
-			String sql = "INSERT INTO user(date, money, category)";
-			sql += "VALUES(" + "'" + date + "','" + money + "','" + category +"');";
-
-			rs2 = st.executeUpdate(sql);
-			System.out.println(rs2>0?"등록 성공":"등록 실패");
-
-			st.close();
-			conn.close();
-
-		}catch(SQLException e) {
-			System.out.println("SQLException : "+ e.getMessage());
-		}
-
 	}
+	
 
-	public static void inquiry(Connection conn) throws Exception{
-		java.sql.Statement st = null;
+	public void inquiry() throws Exception{	//DB에 저장된 정보를 불러오는 함수
 		ResultSet rs = null;
 
 		try {
 			st = conn.createStatement();
-			rs = st.executeQuery("SELECT date, money, category FROM user");
+			rs = st.executeQuery("SELECT id, date, money, category, note FROM user");
+			//user테이블의 컬럼들을 불러온다
 
 			while(rs.next()) {
+				int id = rs.getInt("id");
 				String date = rs.getString("date");
 				int money = rs.getInt("money");
-				String category = rs.getString("category");
+				String ctg = rs.getString("category");
+				//String note = rs.getString("note");
 
-				System.out.print("date : " + date);
+				System.out.print("id : " + id);
+				System.out.print(", date : " + date);
 				System.out.print(", money : " + money);
-				System.out.println(", category : " + category);
-			}
+				System.out.println(", category : " + ctg);
+
+				presentid = id;
+			}	//테이블의 항목들을 출력
 
 			rs.close();
-			st.close();			
-			conn.close();
 		}catch(SQLException e) {
 			System.out.println("SQLException : " + e.getMessage());
 		}
 	}
 
-	public void insert(Connection conn, String date, int money, String category) throws Exception{
-		java.sql.Statement st = null;
-		int rs;
+	public void insert() throws Exception{	//DB에 새 정보를 삽입하는 함수
+		int rs2;
+		int id=0;
+		String date="";
+		int money=0;
+		String category="";
+		String note = "";
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-		String sql = "INSERT INTO user(date, money, category)";
-		sql += "VALUES(3, " + "'" + date + "','" + money + "','" + category +"'";
+		try{
+			id = ++presentid;
+			System.out.print("날짜를 입력하세요 : ");
+			date = in.readLine();
+			System.out.print("금액을 입력하세요 : ");
+			money = Integer.parseInt(in.readLine());
+			System.out.print("항목을 입력하세요 : ");
+			category = in.readLine();
+			System.out.print("메모를 입력하세요 : ");
+			note = in.readLine();
+		}catch(Exception e) {
+			System.out.println("입력 실패");
+		}
 
-		rs = st.executeUpdate(sql);
-		System.out.println(rs>0?"등록 성공":"등록 실패");
+		try {	//입력한 데이터를 DB의 user테이블에 삽입
+			String sql = "INSERT INTO user(id, date, money, category, note)";
+			sql += "VALUES(" + "'" + id + "','" + date + "','" + money + "','" + category + "','" + note + "');";
+			st.executeUpdate(sql);
 
-		st.close();
+		}catch(SQLException e) {
+			System.out.println("SQLException : "+ e.getMessage());
+		}
+	}
 
+	public void DBClose() {
+		try {
+			st.close();			
+			conn.close();
+		}catch(Exception e) {
+			System.out.println("SQLException : "+ e.getMessage());
+		}
+	}
+}
+
+
+public class DBConnection {
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		DBMain start = new DBMain();
+
+		try {
+			start.inquiry();
+			//start.calculate();
+			start.insert();
+			start.DBClose();
+		}catch(Exception e) {
+			System.out.println("DB 접속 불가");
+		}
 	}
 }
