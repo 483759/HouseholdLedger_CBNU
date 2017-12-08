@@ -2,6 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
  
+class InfoStatic extends DBMain{
+	
+	
+}
+
 public class DrawChart extends JFrame {
 	Container contentPane; // 컨테이너 생성
 	int[] data = {0,0,0,0,0,0,0,0}; // 차트의 값 저장배열
