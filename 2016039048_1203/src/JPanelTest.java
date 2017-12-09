@@ -1,4 +1,5 @@
 //패널전환
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,11 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField; 
- 
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import plus.*;
  
  class JPanel01 extends JPanel{ 
-	
+	 
 	 private JButton jButton1;
 	 private JButton jButton2;
 	 private JButton jButton3;
@@ -25,7 +27,9 @@ import javax.swing.JTextField;
 
 	 private JScrollPane jScrollPane1;
 	 private JTable jTable1;
-	 private JPanelTest win;	
+	 private JFrame frame1;
+	 private JPanelTest win;
+	 InputForm form;
 
 	 public JPanel01(JPanelTest win) {
 		 this.win=win;
@@ -65,45 +69,66 @@ import javax.swing.JTextField;
 	eraseBtn.setSize(70,20);
 	eraseBtn.setLocation(700,170);
 	add(eraseBtn);
+	
 	//
 	
-	String [] [] data;
-	String [] title = {"날짜","항목","금액","수입/지출","비고"};
+
 	
-	data = new String[3][5];
-	
-	data[0][0]="2017.12.18";
-	data[0][1]="수입";
-	data[0][2]="100,000";
-	data[0][3]="용돈";
-	data[0][4]=" ";
-	
-	data[1][0]="2017.12.18";
-	data[1][1]="지출";
-	data[1][2]="10,000";
-	data[1][3]="식비";
-	data[1][4]=" ";
-	
-	data[2][0]="2017.12.18";
-	data[2][1]="지출";
-	data[2][2]="5,000";
-	data[2][3]="생활비";
-	data[2][4]=" ";
-	
-	jTable1=new JTable(data,title);
+	jTable1 = new JTable();
+	jTable1.setFillsViewportHeight(true);
+	jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	
 	jScrollPane1 = new JScrollPane(jTable1);
 	jScrollPane1.setSize(550,450);
 	jScrollPane1.setLocation(140,90); //가로,세로
 	add(jScrollPane1);
 	
+	
+	
 	jButton1.addActionListener(new MyActionListener1());
 	jButton2.addActionListener(new MyActionListener2());
 	jButton3.addActionListener(new MyActionListener3());
 	jButton4.addActionListener(new MyActionListener4());
-	 
+	writeBtn.addActionListener(new MyActionListener5());
+	changeBtn.addActionListener(new MyActionListener6());
+	eraseBtn.addActionListener(new MyActionListener7());
+	
 	 } 
+
+/*private void JTableTest() {
+		// TODO Auto-generated method stub
+		
+	}
+*/
 	 
+class MyActionListener7 implements ActionListener{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		win.change("panel01");
+	}
+			
+}
+class MyActionListener6 implements ActionListener{
+	@Override
+	//수정버튼 클릭시
+	public void actionPerformed(ActionEvent e) {
+		
+	}
+			
+}
+class MyActionListener5 implements ActionListener{
+	@Override
+	//작성버튼 클릭시
+	public void actionPerformed(ActionEvent e) {
+		frame1=new JFrame("작성");
+		frame1.setSize(300,300);
+		frame1.setVisible(true);
+		
+		
+	}
+	
+		
+}
 class MyActionListener1 implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -129,6 +154,9 @@ class MyActionListener4 implements ActionListener{
 		win.change("panel04");
 	}
 }
+
+
+
  }
  
 class JPanel04 extends JPanel{
