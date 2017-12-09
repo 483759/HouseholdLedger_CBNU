@@ -23,12 +23,14 @@ public class TodayWork extends DBConnection{
 		} catch(SQLException e) {
 			System.out.println("My-SQL 접속 실패!");
 		}
+		
+		inquiry();
 	}
 	
 	public void inquiry(){	//DB에 저장된 정보를 불러오는 함수
 		ResultSet rs = null;
 		int i = 0;
-		arr = new String[20][4];
+		arr2 = new String[20][4];
 		
 		try {
 			st = conn.createStatement();
@@ -41,10 +43,10 @@ public class TodayWork extends DBConnection{
 				String str2 = rs.getString("str2");
 				String str3 = rs.getString("str3");
 				
-				arr[i][0] = date;
-				arr[i][1] = str1;
-				arr[i][2] = str2;
-				arr[i++][3] = str3;
+				arr2[i][0] = date;
+				arr2[i][1] = str1;
+				arr2[i][2] = str2;
+				arr2[i++][3] = str3;
 			}	//테이블의 항목들을 출력
 
 			rs.close();
