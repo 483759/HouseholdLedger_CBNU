@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 import java.awt.Choice;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -110,6 +112,7 @@ import javax.swing.ListSelectionModel;
 		
 	}
 */
+
 class MyActionListener5 implements ActionListener{
 	@Override
 	//작성버튼 클릭시
@@ -120,59 +123,76 @@ class MyActionListener5 implements ActionListener{
 		frame1=new JFrame("작성");
 		frame1.setLocation(500, 400);
 		frame1.setSize(400,400);
-		
-		Container contentPane = frame1.getContentPane();
-		//income = new JCheckBox("수입");
-		//expense = new JCheckBox("지출");
-		
 		frame1.setLayout(new FlowLayout());
-		Choice ch1 = new Choice();
-		ch1.addItem("외식");
-		ch1.addItem("카페/간식");             /////////////// 여러개중에 한개 선택 (ex 항목)
-		ch1.addItem("술/유흥");
-		ch1.addItem("생활");
-		ch1.addItem("쇼핑");
-		ch1.addItem("미용");
-		ch1.addItem("교통");
-		ch1.addItem("문화");
+		//Container contentPane = frame1.getContentPane();
 		
-		Choice ch2 = new Choice();
-		ch2.addItem("2016");	ch2.addItem("2017");	ch2.addItem("2018");
+	
+		CheckboxGroup group = new CheckboxGroup();
+		Checkbox income = new Checkbox("수입",group,false);
+		Checkbox exepense = new Checkbox("지출",group,false);
 		
-		Choice ch3 = new Choice();
-		ch3.addItem("1");	ch3.addItem("2");	ch3.addItem("3");
-		ch3.addItem("4");	ch3.addItem("5");	ch3.addItem("6");
-		ch3.addItem("7");	ch3.addItem("8");	ch3.addItem("9");
-		ch3.addItem("10");	ch3.addItem("11");	ch3.addItem("12");
 		
-		Choice ch4 = new Choice();
-		ch4.addItem("1");	ch4.addItem("2");	ch4.addItem("3");
-		ch4.addItem("4");	ch4.addItem("4");	ch4.addItem("6");
-		ch4.addItem("7");	ch4.addItem("8");	ch4.addItem("9");
-		ch4.addItem("10");	ch4.addItem("11");	ch4.addItem("12");
-		ch4.addItem("13");	ch4.addItem("14");	ch4.addItem("15");
-		ch4.addItem("16");	ch4.addItem("17");	ch4.addItem("18");
-		ch4.addItem("19");	ch4.addItem("20");	ch4.addItem("21");
-		ch4.addItem("22");	ch4.addItem("23");	ch4.addItem("24");
-		ch4.addItem("25");	ch4.addItem("26");	ch4.addItem("27");
-		ch4.addItem("28");	ch4.addItem("29");	ch4.addItem("30");
-		ch4.addItem("31");	
+		income.setLocation(10,250);
+		frame1.add(income);
+		exepense.setLocation(10,280);
+		frame1.add(exepense);
+		income.setVisible(true);
+		
+		
+		frame1.setLayout(null);
+		Choice cate = new Choice();
+		cate.addItem("외식");
+		cate.addItem("카페/간식");             /////////////// 여러개중에 한개 선택 (ex 항목)
+		cate.addItem("술/유흥");
+		cate.addItem("생활");
+		cate.addItem("쇼핑");
+		cate.addItem("미용");
+		cate.addItem("교통");
+		cate.addItem("문화");
+		
+		Choice year = new Choice();
+		year.addItem("2016");	year.addItem("2017");	year.addItem("2018");
+		
+		Choice month = new Choice();
+		month.addItem("1");	month.addItem("2");	month.addItem("3");
+		month.addItem("4");	month.addItem("5");	month.addItem("6");
+		month.addItem("7");	month.addItem("8");	month.addItem("9");
+		month.addItem("10");month.addItem("11");month.addItem("12");
+		
+		Choice date = new Choice();
+		date.addItem("1");	date.addItem("2");	date.addItem("3");
+		date.addItem("4");	date.addItem("4");	date.addItem("6");
+		date.addItem("7");	date.addItem("8");	date.addItem("9");
+		date.addItem("10");	date.addItem("11");	date.addItem("12");
+		date.addItem("13");	date.addItem("14");	date.addItem("15");
+		date.addItem("16");	date.addItem("17");	date.addItem("18");
+		date.addItem("19");	date.addItem("20");	date.addItem("21");
+		date.addItem("22");	date.addItem("23");	date.addItem("24");
+		date.addItem("25");	date.addItem("26");	date.addItem("27");
+		date.addItem("28");	date.addItem("29");	date.addItem("30");
+		date.addItem("31");	
 		
 		
 		
 		//frame1.add(income);
 		//frame1.add(expense);
-		contentPane.add(ch2,BorderLayout.CENTER);
-		contentPane.add(ch3,BorderLayout.EAST);
-		contentPane.add(ch4,BorderLayout.SOUTH);
-		contentPane.add(ch1,BorderLayout.NORTH);
 		
-		CheckboxGroup group = new CheckboxGroup();
-		Checkbox income = new Checkbox("수입",group,false);
-		Checkbox exepense = new Checkbox("지출",group,false);
+		year.setLocation(10,10);
+		//frame1.add(year);
 		
-		contentPane.add(income,BorderLayout.LINE_END);
-		contentPane.add(exepense,BorderLayout.LINE_END);
+		month.setLocation(100,10);
+		//frame1.add(month);
+		
+		date.setLocation(190,10);
+		//frame1.add(date);
+		
+		cate.setLocation(10,50);
+		//frame1.add(cate);
+		
+		
+		
+		
+		
 		//JButton yes = new JButton();
 		//yes.setSize(20,10);
 		//yes.setLocation(30,30);
@@ -200,6 +220,7 @@ class MyActionListener5 implements ActionListener{
 	
 		
 }
+
 class MyActionListener6 implements ActionListener{
 	@Override
 	//수정버튼 클릭시
@@ -344,11 +365,18 @@ class JPanel03 extends JPanel{
 	private JButton jButton3;
 	private JButton jButton4;
 	
+	public int[] cat = {30, 15, 5, 10, 10, 10, 10, 10};
+	public int[] data = {0,0,0,0,0,0,0,0};
+	public int[] arcAngle = new int[8]; 
+	public Color[] color = {Color.RED, Color.BLUE, Color.MAGENTA, Color.ORANGE, Color.GREEN, Color.YELLOW, Color.CYAN, Color.PINK};
+	String[] itemName = {"외식", "카페·간식", "술·유흥", "생활", "쇼핑", "미용", "교통", "문화생활"};
 	public JPanel03(JPanelTest win) {
 		setLayout(null);
 		this.win=win;
 		
 		
+		
+		/*
 		JLabel lblLbl = new JLabel("3번패널:");
 		lblLbl.setBounds(150,90,100,21); // x,y,width,height
 		add(lblLbl);
@@ -365,6 +393,27 @@ class JPanel03 extends JPanel{
 		listField = new JPasswordField();
 		listField.setBounds(200,130,116,21);
 		add(listField);
+		*/
+		class ChartPanel extends JPanel{
+			 public void paintComponent(Graphics g){
+
+		         super.paintComponent(g);//부모 패인트호출
+
+		         int startAngle = 0;
+
+		         for(int i=0;i<data.length;i++){
+		            g.setColor(color[i]);
+		            g.drawString(itemName[i]+""+Math.round(arcAngle[i]*100/360)+"%", 50+i*100,20);
+		         }
+
+		         for(int i=0;i<data.length;i++){
+		            g.setColor(color[i]);
+		            g.fillArc(150,50,200,200,startAngle,arcAngle[i]);
+		            startAngle = startAngle + arcAngle[i];
+		         }
+		      }
+		}
+		
 		
 		
 		jButton1 = new JButton("월별로 보기");
@@ -393,7 +442,46 @@ class JPanel03 extends JPanel{
 		jButton2.addActionListener(new MyActionListener2());
 		jButton3.addActionListener(new MyActionListener3());
 		jButton4.addActionListener(new MyActionListener4());
+		
+		
+
+		
+		
+		ChartPanel chartPanel = new ChartPanel();
+		drawChart();
+		
+		chartPanel.setLocation(100,100);
+		add(chartPanel);
+		
+		
+		
 	}
+
+	
+	
+		
+	
+	private void drawChart() {
+		int sum=0;
+		InfoStatic inf = new InfoStatic();
+		
+		 for(int i=0;i<data.length;i++){ // 데이터 값만큼 루프
+	         data[i] = inf.cat[i];
+	         sum+=data[i];
+	      }
+	      if(sum == 0) 
+	         return;
+
+	      for(int i=0;i<data.length;i++){ 
+	         arcAngle[i] = (int)Math.round((double)data[i]/(double)sum*360);
+	         //chartPanel.repaint(); // 차트패널의 PAINT호출
+	      }
+	}
+
+
+
+
+
 	class MyActionListener1 implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -420,6 +508,7 @@ class JPanel03 extends JPanel{
 	}
 	
 }
+
 
 
 class JPanel02 extends JPanel{
