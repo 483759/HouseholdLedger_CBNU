@@ -1,12 +1,9 @@
 //패널전환
 
-import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 import java.awt.Choice;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
@@ -119,27 +117,21 @@ class MyActionListener5 implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		
-		
+		//Container contentPane = frame1.getContentPane();
+		JPanel Panel1 = new JPanel();
+		JPanel Panel2 = new JPanel();
 		frame1=new JFrame("작성");
-		frame1.setLocation(500, 400);
+		frame1.setLocation(200, 150);
 		frame1.setSize(400,400);
-		frame1.setLayout(new FlowLayout());
+		frame1.setLayout(null);
 		//Container contentPane = frame1.getContentPane();
 		
 	
 		CheckboxGroup group = new CheckboxGroup();
 		Checkbox income = new Checkbox("수입",group,false);
-		Checkbox exepense = new Checkbox("지출",group,false);
+		Checkbox expense = new Checkbox("지출",group,false);
 		
-		
-		income.setLocation(10,250);
-		frame1.add(income);
-		exepense.setLocation(10,280);
-		frame1.add(exepense);
-		income.setVisible(true);
-		
-		
-		frame1.setLayout(null);
+
 		Choice cate = new Choice();
 		cate.addItem("외식");
 		cate.addItem("카페/간식");             /////////////// 여러개중에 한개 선택 (ex 항목)
@@ -174,22 +166,69 @@ class MyActionListener5 implements ActionListener{
 		
 		
 		
-		//frame1.add(income);
-		//frame1.add(expense);
+		income.setBounds(290,7,40,30);
+		frame1.add(income);
+		expense.setBounds(330,7,40,30);
+		frame1.add(expense);
 		
 		year.setLocation(10,10);
-		//frame1.add(year);
+		frame1.add(year);
+		
+		JLabel year1= new JLabel("년");
+		year1.setBounds(70,13,20,20);
+		frame1.add(year1);
 		
 		month.setLocation(100,10);
-		//frame1.add(month);
+		frame1.add(month);
+		
+		JLabel month1= new JLabel("월");
+		month1.setBounds(150,13,20,20);
+		frame1.add(month1);
 		
 		date.setLocation(190,10);
-		//frame1.add(date);
+		frame1.add(date);
 		
-		cate.setLocation(10,50);
-		//frame1.add(cate);
+		JLabel date1= new JLabel("일");
+		date1.setBounds(240,13,20,20);
+		frame1.add(date1);
+		
+		JLabel cate1= new JLabel("항목");
+		cate1.setBounds(10,37,40,50);
+		frame1.add(cate1);
+		
+		cate.setLocation(50,50);
+		frame1.add(cate);
+		
+		JLabel label1= new JLabel("금액");
+		label1.setBounds(190,37,50,50);
+		frame1.add(label1);
+		
+		JTextField won = new JTextField();
+		won.setBounds(230,50,100,25);
+		frame1.add(won);
+		
+		JLabel label2 = new JLabel("비고");
+		label2.setBounds(10,75,50,50);
+		frame1.add(label2);
+		
+		JTextArea bigo = new JTextArea();
+		JScrollPane scrollpane = new JScrollPane(bigo);
+		scrollpane.setBounds(10,120,365,200);
+		frame1.add(scrollpane);
+		
+		JButton no = new JButton("취소");
+		no.setSize(60,25);
+		no.setLocation(120,330);
+		frame1.add(no);
+		
+		JButton yes = new JButton("확인");
+		yes.setSize(60,25);
+		yes.setLocation(190,330);
+		frame1.add(yes);
 		
 		
+		
+		frame1.setVisible(true);
 		
 		
 		
@@ -215,10 +254,24 @@ class MyActionListener5 implements ActionListener{
 		frame1.setVisible(true);
 		
 		// frame1.add(jtext);
+	
+		
+		no.addActionListener(new ActionListener(){
+			//작성창 취소
+			public void actionPerformed(ActionEvent e) {
+				frame1.setVisible(false);
+			}
+		});
+		
+		yes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			// 내용넣기
+			}
+		});
 		
 	}
 	
-		
 }
 
 class MyActionListener6 implements ActionListener{
@@ -255,6 +308,7 @@ class MyActionListener3 implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		win.change("panel03");
+		
 	}
 }
 class MyActionListener4 implements ActionListener{
