@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -117,26 +119,23 @@ class MyActionListener5 implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		
-		//Container contentPane = frame1.getContentPane();
-		JPanel Panel1 = new JPanel();
-		JPanel Panel2 = new JPanel();
 		frame1=new JFrame("작성");
 		frame1.setLocation(200, 150);
 		frame1.setSize(400,400);
 		frame1.setLayout(null);
-		//Container contentPane = frame1.getContentPane();
 		
-	
+		frame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 		CheckboxGroup group = new CheckboxGroup();
 		Checkbox income = new Checkbox("수입",group,false);
 		Checkbox expense = new Checkbox("지출",group,false);
 		
-
+	
 		Choice cate = new Choice();
+		cate.addItem("생활");
 		cate.addItem("외식");
 		cate.addItem("카페/간식");             /////////////// 여러개중에 한개 선택 (ex 항목)
 		cate.addItem("술/유흥");
-		cate.addItem("생활");
 		cate.addItem("쇼핑");
 		cate.addItem("미용");
 		cate.addItem("교통");
@@ -226,50 +225,43 @@ class MyActionListener5 implements ActionListener{
 		yes.setLocation(190,330);
 		frame1.add(yes);
 		
-		
-		
-		frame1.setVisible(true);
-		
-		
-		
-		//JButton yes = new JButton();
-		//yes.setSize(20,10);
-		//yes.setLocation(30,30);
-		
-		
-		/*jscroll1 = new JScrollPane(jtext);
-		jscroll1.setSize(100,100);
-		jscroll1.setLocation(10,100);*/
-		//frame1.add();
-		
-		//jtext.setBounds(10,200,30,21);
-		//jtext.setLocation(30,30);
-		//jtext.setColumns(10);
-		
-		
-		
-		
-		
-		
-		frame1.setVisible(true);
-		
-		// frame1.add(jtext);
+			
+			
 	
 		
+		income.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				
+				//수입이 선택되면
+				cate.disable();
+			}
+		});
+		
+		expense.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				
+				//지출이 선택되면
+				cate.enable();
+				
+			}
+		});
 		no.addActionListener(new ActionListener(){
-			//작성창 취소
+			//작성창의 취소 버튼을 누르면
 			public void actionPerformed(ActionEvent e) {
-				frame1.setVisible(false);
+				frame1.dispose();
 			}
 		});
 		
 		yes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-			// 내용넣기
+			//작성창의 확인 버튼을 누르면
+				
+				
 			}
 		});
 		
+		
+		frame1.setVisible(true);
 	}
 	
 }
@@ -279,14 +271,159 @@ class MyActionListener6 implements ActionListener{
 	//수정버튼 클릭시
 	public void actionPerformed(ActionEvent e) {
 		
+		frame1=new JFrame("작성");
+		frame1.setLocation(200, 150);
+		frame1.setSize(400,400);
+		frame1.setLayout(null);
+		
+		frame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		CheckboxGroup group = new CheckboxGroup();
+		Checkbox income = new Checkbox("수입",group,false);
+		Checkbox expense = new Checkbox("지출",group,false);
+		
+	
+		Choice cate = new Choice();
+		cate.addItem("생활");
+		cate.addItem("외식");
+		cate.addItem("카페/간식");             /////////////// 여러개중에 한개 선택 (ex 항목)
+		cate.addItem("술/유흥");
+		cate.addItem("쇼핑");
+		cate.addItem("미용");
+		cate.addItem("교통");
+		cate.addItem("문화");
+		
+		Choice year = new Choice();
+		year.addItem("2016");	year.addItem("2017");	year.addItem("2018");
+		
+		Choice month = new Choice();
+		month.addItem("1");	month.addItem("2");	month.addItem("3");
+		month.addItem("4");	month.addItem("5");	month.addItem("6");
+		month.addItem("7");	month.addItem("8");	month.addItem("9");
+		month.addItem("10");month.addItem("11");month.addItem("12");
+		
+		Choice date = new Choice();
+		date.addItem("1");	date.addItem("2");	date.addItem("3");
+		date.addItem("4");	date.addItem("4");	date.addItem("6");
+		date.addItem("7");	date.addItem("8");	date.addItem("9");
+		date.addItem("10");	date.addItem("11");	date.addItem("12");
+		date.addItem("13");	date.addItem("14");	date.addItem("15");
+		date.addItem("16");	date.addItem("17");	date.addItem("18");
+		date.addItem("19");	date.addItem("20");	date.addItem("21");
+		date.addItem("22");	date.addItem("23");	date.addItem("24");
+		date.addItem("25");	date.addItem("26");	date.addItem("27");
+		date.addItem("28");	date.addItem("29");	date.addItem("30");
+		date.addItem("31");	
+		
+		
+		
+		income.setBounds(290,7,40,30);
+		frame1.add(income);
+		expense.setBounds(330,7,40,30);
+		frame1.add(expense);
+		
+		year.setLocation(10,10);
+		frame1.add(year);
+		
+		JLabel year1= new JLabel("년");
+		year1.setBounds(70,13,20,20);
+		frame1.add(year1);
+		
+		month.setLocation(100,10);
+		frame1.add(month);
+		
+		JLabel month1= new JLabel("월");
+		month1.setBounds(150,13,20,20);
+		frame1.add(month1);
+		
+		date.setLocation(190,10);
+		frame1.add(date);
+		
+		JLabel date1= new JLabel("일");
+		date1.setBounds(240,13,20,20);
+		frame1.add(date1);
+		
+		JLabel cate1= new JLabel("항목");
+		cate1.setBounds(10,37,40,50);
+		frame1.add(cate1);
+		
+		cate.setLocation(50,50);
+		frame1.add(cate);
+		
+		JLabel label1= new JLabel("금액");
+		label1.setBounds(190,37,50,50);
+		frame1.add(label1);
+		
+		JTextField won = new JTextField();
+		won.setBounds(230,50,100,25);
+		frame1.add(won);
+		
+		JLabel label2 = new JLabel("비고");
+		label2.setBounds(10,75,50,50);
+		frame1.add(label2);
+		
+		JTextArea bigo = new JTextArea();
+		JScrollPane scrollpane = new JScrollPane(bigo);
+		scrollpane.setBounds(10,120,365,200);
+		frame1.add(scrollpane);
+		
+		JButton no = new JButton("취소");
+		no.setSize(60,25);
+		no.setLocation(120,330);
+		frame1.add(no);
+		
+		JButton yes = new JButton("확인");
+		yes.setSize(60,25);
+		yes.setLocation(190,330);
+		frame1.add(yes);
+		
+			
+			
+	
+		
+		income.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				
+				//수입이 선택되면
+				cate.disable();
+			}
+		});
+		
+		expense.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				
+				//지출이 선택되면
+				cate.enable();
+				
+			}
+		});
+		no.addActionListener(new ActionListener(){
+			//작성창의 취소 버튼을 누르면
+			public void actionPerformed(ActionEvent e) {
+				frame1.dispose();
+			}
+		});
+		
+		yes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			//작성창의 확인 버튼을 누르면
+				
+				
+			}
+		});
+		
+		
+		frame1.setVisible(true);
+		
 	}
 			
 }
 	 
 class MyActionListener7 implements ActionListener{
 	@Override
+	//삭제버튼 클릭시
 	public void actionPerformed(ActionEvent e) {
-		win.change("panel01");
+		
 	}
 			
 }
