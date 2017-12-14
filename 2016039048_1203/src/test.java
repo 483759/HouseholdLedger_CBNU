@@ -16,7 +16,7 @@ public class test extends JFrame {
     public test() {
 
         // 생성자에 ico 호출 하고 이미지 경로 지정...(상대경로로 안될경우 절대경로 지정)
-        icon = new ImageIcon("C:\\Users\\김한별\\Desktop\\d.png");
+        icon = new ImageIcon("C:\\Users\\김한별\\Desktop\\제목 없음.png");
 
        // 백그라운드 이미지 삽입할 메소드에 이름없는 클래스로 구현
         JPanel panel = new JPanel() {
