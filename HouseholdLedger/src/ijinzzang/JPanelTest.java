@@ -6,8 +6,10 @@ import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 import java.awt.Choice;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +22,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
+//import ijinzzang.DrawChart.ChartPanel;
 
 //import plus.InputForm;
 
@@ -86,8 +91,10 @@ class JPanel01 extends JPanel{
 
 		DBConnection db = new DBConnection();
 
+		String [] colName = {"날짜","항목","금액","수입/지출","비고"};
+
 		String [][] data;
-		String [] title = {"날짜","항목","금액","수입/지출","비고"};
+
 
 		data = new String[20][5];
 
@@ -95,15 +102,21 @@ class JPanel01 extends JPanel{
 			for(int j=0;j<5;j++)
 				data[i][j] = db.arr[i][j+1];
 
-		jTable1 = new JTable(data, title);
-		jTable1.setFillsViewportHeight(true);
-		jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		int i=0;
 
-		jScrollPane1 = new JScrollPane(jTable1);
-		jScrollPane1.setSize(550,450);
-		jScrollPane1.setLocation(140,90); //가로,세로
+		DefaultTableModel model = new DefaultTableModel(colName, 0);
+		JTable table = new JTable(model);
+
+		while(data[i][0]!=null) {
+			//String arr[] = new String[3];
+			model.addRow(data[i]);
+			i++;
+		}
+
+		jScrollPane1 = new JScrollPane(table);
+		jScrollPane1.setSize(550, 450);
+		jScrollPane1.setLocation(140, 90);
 		add(jScrollPane1);
-
 
 
 		jButton1.addActionListener(new MyActionListener1());
@@ -112,7 +125,7 @@ class JPanel01 extends JPanel{
 		jButton4.addActionListener(new MyActionListener4());
 		writeBtn.addActionListener(new MyActionListener5());
 		changeBtn.addActionListener(new MyActionListener6());
-		eraseBtn.addActionListener(new MyActionListener7());
+		eraseBtn.addActionListener(new RemoveActionListener(table));
 
 	} 
 
@@ -137,6 +150,14 @@ class JPanel01 extends JPanel{
 			//expense = new JCheckBox("지출");
 
 			frame1.setLayout(new FlowLayout());
+
+			CheckboxGroup group = new CheckboxGroup();
+			Checkbox income = new Checkbox("수입",group,false);
+			Checkbox exepense = new Checkbox("지출",group,false);
+
+			contentPane.add(income);
+			contentPane.add(exepense);
+
 			Choice ch1 = new Choice();
 			ch1.addItem("외식");
 			ch1.addItem("카페/간식");             /////////////// 여러개중에 한개 선택 (ex 항목)
@@ -169,8 +190,6 @@ class JPanel01 extends JPanel{
 			ch4.addItem("28");   ch4.addItem("29");   ch4.addItem("30");
 			ch4.addItem("31");   
 
-
-
 			//frame1.add(income);
 			//frame1.add(expense);
 			contentPane.add(ch2,BorderLayout.CENTER);
@@ -178,12 +197,6 @@ class JPanel01 extends JPanel{
 			contentPane.add(ch4,BorderLayout.SOUTH);
 			contentPane.add(ch1,BorderLayout.NORTH);
 
-			CheckboxGroup group = new CheckboxGroup();
-			Checkbox income = new Checkbox("수입",group,false);
-			Checkbox exepense = new Checkbox("지출",group,false);
-
-			contentPane.add(income,BorderLayout.LINE_END);
-			contentPane.add(exepense,BorderLayout.LINE_END);
 			//JButton yes = new JButton();
 			//yes.setSize(20,10);
 			//yes.setLocation(30,30);
@@ -197,11 +210,6 @@ class JPanel01 extends JPanel{
 			//jtext.setBounds(10,200,30,21);
 			//jtext.setLocation(30,30);
 			//jtext.setColumns(10);
-
-
-
-
-
 
 			frame1.setVisible(true);
 
@@ -220,12 +228,29 @@ class JPanel01 extends JPanel{
 
 	}
 
-	class MyActionListener7 implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			win.change("panel01");
+	class RemoveActionListener implements ActionListener{
+		//@Override
+		//삭제버튼 클릭시
+		JTable table;
+
+		RemoveActionListener(JTable table){
+			this.table = table;
 		}
 
+		public void actionPerformed(ActionEvent e){
+			int row = table.getSelectedRow();
+			DBConnection db = new DBConnection();
+
+			if(row==-1)
+				return;
+
+			db.remove(row);
+
+			DefaultTableModel model = (DefaultTableModel)table.getModel();
+			model.removeRow(row);
+
+			win.change("panel01");
+		}
 	}
 
 	class MyActionListener1 implements ActionListener{
@@ -244,7 +269,8 @@ class JPanel01 extends JPanel{
 	class MyActionListener3 implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			win.change("panel03");
+			//win.change("panel03");
+			new DrawChart2();
 		}
 	}
 	class MyActionListener4 implements ActionListener{
@@ -260,7 +286,7 @@ class JPanel01 extends JPanel{
 
 class JPanel04 extends JPanel{
 	private JTextField textField;
-	private JPasswordField listField;
+	//private JPasswordField listField;
 	private JPanelTest win;
 
 	private JButton jButton1;
@@ -274,25 +300,6 @@ class JPanel04 extends JPanel{
 	public JPanel04(JPanelTest win) {
 		setLayout(null);
 		this.win=win;
-
-		/*
-    JLabel lblLbl = new JLabel("4번패널:");
-    lblLbl.setBounds(150,90,100,21); // x,y,width,height
-    add(lblLbl);
-
-    textField = new JTextField();
-    textField.setBounds(200,90,116,21);
-    add(textField);
-    textField.setColumns(10);
-
-    JLabel lblLbl_1 = new JLabel("항목:");
-    lblLbl_1.setBounds(150, 130, 100, 21);
-    add(lblLbl_1);
-
-    listField = new JPasswordField();
-    listField.setBounds(200,130,116,21);
-    add(listField);
-		 */
 
 		jButton1 = new JButton("월별로 보기");
 		jButton1.setSize(100,20);
@@ -354,7 +361,9 @@ class JPanel04 extends JPanel{
 	class MyActionListener3 implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			win.change("panel03");
+			//win.change("panel03");
+
+			new DrawChart2();
 		}
 	}
 	class MyActionListener4 implements ActionListener{
@@ -365,9 +374,64 @@ class JPanel04 extends JPanel{
 	}
 }
 
-class JPanel03 extends JPanel{
+class DrawChart2 extends JFrame {
+	int[] data = {30,10,5,10,10,10,15,10}; // 차트의 값 저장배열
+	int[] arcAngle = new int[8]; 
 
-	private JTextField textField;
+	Color[] color = {Color.RED, Color.BLUE, Color.MAGENTA, Color.ORANGE, Color.GREEN, Color.YELLOW, Color.CYAN, Color.PINK};
+
+	String[] itemName = {"외식", "카페·간식", "술·유흥", "생활", "쇼핑", "미용", "교통", "문화생활"};
+
+	Container con;
+
+	DrawChart2(){ // 생성자
+		ChartPanel chartPanel = new ChartPanel(); // 차트패널
+		//chartPanel.setLocation(100, 100);
+		chartPanel.validate();
+		//chartPanel.setVisible(true);
+		setSize(600, 500);
+		add(chartPanel);
+
+		setVisible(true);
+
+		int sum=0; // 초기값 0
+
+		for(int i=0;i<data.length;i++)
+			sum+=data[i];
+		//if(sum == 0) return;		
+
+		for(int i=0;i<data.length;i++){ 
+			arcAngle[i] = (int)Math.round((double)data[i]/(double)sum*360);
+			chartPanel.repaint(); // 차트패널의 PAINT호출
+		}
+	}
+
+	class ChartPanel extends JPanel{ // 차트 표시 패널
+
+		public void paintComponent(Graphics g){
+
+			super.paintComponent(g);//부모 패인트호출
+
+			int startAngle = 0;
+
+			for(int i=0;i<data.length;i++){
+				g.setColor(color[i]);
+				g.drawString(itemName[i]+""+Math.round(arcAngle[i]*100/360)+"%", 400,50 + i*50);
+			}
+
+			for(int i=0;i<data.length;i++){
+				g.setColor(color[i]);
+				g.fillArc(150,100,200,200,startAngle,arcAngle[i]);
+				startAngle = startAngle + arcAngle[i];
+			}
+		}
+	}
+
+}
+
+
+
+class JPanel03 extends JPanel{
 	private JPasswordField listField;
 	private JPanelTest win;
 
@@ -379,25 +443,6 @@ class JPanel03 extends JPanel{
 	public JPanel03(JPanelTest win) {
 		setLayout(null);
 		this.win=win;
-
-
-		JLabel lblLbl = new JLabel("3번패널:");
-		lblLbl.setBounds(150,90,100,21); // x,y,width,height
-		add(lblLbl);
-
-		textField = new JTextField();
-		textField.setBounds(200,90,116,21);
-		add(textField);
-		textField.setColumns(10);
-
-		JLabel lblLbl_1 = new JLabel("항목:");
-		lblLbl_1.setBounds(150, 130, 100, 21);
-		add(lblLbl_1);
-
-		listField = new JPasswordField();
-		listField.setBounds(200,130,116,21);
-		add(listField);
-
 
 		jButton1 = new JButton("월별로 보기");
 		jButton1.setSize(100,20);
@@ -419,8 +464,6 @@ class JPanel03 extends JPanel{
 		jButton4.setLocation(10,210);
 		add(jButton4);
 
-
-
 		jButton1.addActionListener(new MyActionListener1());
 		jButton2.addActionListener(new MyActionListener2());
 		jButton3.addActionListener(new MyActionListener3());
@@ -441,7 +484,9 @@ class JPanel03 extends JPanel{
 	class MyActionListener3 implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			win.change("panel03");
+			new DrawChart2();
+
+			//win.change("panel03");
 		}
 	}
 	class MyActionListener4 implements ActionListener{
@@ -464,11 +509,14 @@ class JPanel02 extends JPanel{
 	private JButton jButton3;
 	private JButton jButton4;
 
+	private JTable jTable2;
+	private JScrollPane jScrollPane2;
+
 	public JPanel02(JPanelTest win) {
 		setLayout(null);
 		this.win=win;
 
-
+		/*
 		JLabel lblLbl = new JLabel("2번패널:");
 		lblLbl.setBounds(150,90,100,21); // x,y,width,height
 		add(lblLbl);
@@ -481,6 +529,7 @@ class JPanel02 extends JPanel{
 		JLabel lblLbl_1 = new JLabel("항목:");
 		lblLbl_1.setBounds(150, 130, 100, 21);
 		add(lblLbl_1);
+		 */
 
 
 		listField = new JPasswordField();
@@ -507,6 +556,34 @@ class JPanel02 extends JPanel{
 		jButton4.setLocation(10,210);
 		add(jButton4);
 
+		DBConnection db = new DBConnection();
+		int n=0;
+
+		String [] colName = {"날짜","금액"};
+		String [][] data1 = new String[20][2];
+
+		for(int i=0; i<20; i++) {
+			if((db.arr[i][4]).equals("0")) {	//수입이면
+				data1[n][0] = db.arr[i][1];
+				data1[n][1] = db.arr[i][3];
+				n++;
+			}
+		}
+
+		DefaultTableModel model = new DefaultTableModel(colName, 0);
+		JTable table = new JTable(model);
+
+		n = 0;
+		while(data1[n][0]!=null) {
+			//String arr[] = new String[3];
+			model.addRow(data1[n]);
+			n++;
+		}
+
+		jScrollPane2 = new JScrollPane(table);
+		jScrollPane2.setSize(250, 200);
+		jScrollPane2.setLocation(140, 90);
+		add(jScrollPane2);
 
 
 		jButton1.addActionListener(new MyActionListener1());
@@ -530,7 +607,10 @@ class JPanel02 extends JPanel{
 	class MyActionListener3 implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			win.change("panel03");
+			//win.change("panel03");
+
+			new DrawChart2();
+
 		}
 	}
 	class MyActionListener4 implements ActionListener{
@@ -589,7 +669,7 @@ class JPanelTest extends JFrame {
 
 		win.add(win.jpanel01);
 		win.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		win.setSize(800,600);
+		win.setSize(800,650);
 		win.setVisible(true);
 	}
 

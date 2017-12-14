@@ -23,14 +23,14 @@ public class DBConnection{
 		DBConnection start = new DBConnection();
 
 		try {
-			//start.insert();
+			start.insert();
 			start.print();
 			start.DBClose();
 		}catch(Exception e) {
 			System.out.println("DB 접속 불가");
 		}
 	}
-	
+
 	public DBConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -45,7 +45,7 @@ public class DBConnection{
 		} catch(SQLException e) {
 			System.out.println("My-SQL 접속 실패!");
 		}
-		
+
 		inquiry();
 
 	}
@@ -55,7 +55,7 @@ public class DBConnection{
 		ResultSet rs = null;
 		int i = 0;
 		arr = new String[20][6];
-		
+
 		try {
 			st = conn.createStatement();
 			rs = st.executeQuery("SELECT id, date, category, money, sort, note FROM user");
@@ -121,10 +121,10 @@ public class DBConnection{
 			System.out.println("SQLException : "+ e.getMessage());
 		}
 	}
-	
+
 	public void print() {
 		int i = 0;
-		
+
 		while(arr[i][0]!=null) {
 			System.out.print("번호-" + arr[i][0]);
 			System.out.print(" , 날짜 : " + arr[i][1]);
@@ -133,6 +133,17 @@ public class DBConnection{
 			System.out.print(" , 분류 : " + (arr[i][4].equals("0")?"수입":"지출"));
 			System.out.println(" , 비고 : " + arr[i][5]);
 			i++;
+		}
+	}
+
+	public void remove(int row) {
+		String id = arr[row][0];
+		String sql = "DELETE FROM user where id = " + id;
+
+		try {
+			st.executeUpdate(sql);
+		} catch(SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
 		}
 	}
 
