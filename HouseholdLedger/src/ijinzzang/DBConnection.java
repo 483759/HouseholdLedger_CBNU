@@ -23,7 +23,7 @@ public class DBConnection{
 		DBConnection start = new DBConnection();
 
 		try {
-			start.insert();
+			//start.insert();
 			start.print();
 			start.DBClose();
 		}catch(Exception e) {
@@ -86,32 +86,10 @@ public class DBConnection{
 		}
 	}
 
-	public void insert() throws Exception{	//DB에 새 정보를 삽입하는 함수
-		int rs2;
-		int id=0;
-		int srt=0;
-		String date="";
-		int money=0;
-		String category="";
-		String note = "";
+	public void insert(int srt, String date, int money, String category, String note) throws Exception{	//DB에 새 정보를 삽입하는 함수
+		int id=++presentid;
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
-		try{
-			id = ++presentid;
-			System.out.print("날짜를 입력하세요 : ");
-			date = in.readLine();
-			System.out.print("항목을 입력하세요 : ");
-			category = in.readLine();
-			System.out.print("금액을 입력하세요 : ");
-			money = Integer.parseInt(in.readLine());
-			System.out.print("구분을 입력하세요(수입-0/지출-1) : ");
-			srt = Integer.parseInt(in.readLine());
-			System.out.print("메모를 입력하세요 : ");
-			note = in.readLine();
-		}catch(Exception e) {
-			System.out.println("입력 실패");
-		}
-
+		
 		try {	//입력한 데이터를 DB의 user테이블에 삽입
 			String sql = "INSERT INTO user(id, date, category, money, sort, note)";
 			sql += "VALUES(" + "'" + id + "','" + date + "','" + category + "','" + money + "','" + srt + "','" + note + "');";
@@ -133,6 +111,19 @@ public class DBConnection{
 			System.out.print(" , 분류 : " + (arr[i][4].equals("0")?"수입":"지출"));
 			System.out.println(" , 비고 : " + arr[i][5]);
 			i++;
+		}
+	}
+	
+	public void update(int row, String date, String ctg, int money, String memo) {
+		String id = arr[row][0];
+		String sql = "UPDATE user ";
+		sql += "SET date=\"" + date + "\", SET category=\"" + ctg + "\", SET money=" + money + ", SET note=\"" + memo + "\" ";
+		sql += "where id=" + id;
+		
+		try {
+			st.executeUpdate(sql);
+		} catch(SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
 		}
 	}
 

@@ -55,25 +55,8 @@ public class TodayWork extends DBConnection{
 		}
 	}
 	
-	public void insert() {
-		String date = null;
-		String str1 = null;
-		String str2 = null;
-		String str3 = null;
+	public void insert(String date, String str1, String str2, String str3) {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
-		try{
-			System.out.print("날짜를 입력하세요 : ");
-			date = in.readLine();
-			System.out.print("메모1를 입력하세요 : ");
-			str1 = in.readLine();
-			System.out.print("메모2를 입력하세요 : ");
-			str2 = in.readLine();
-			System.out.print("메모3를 입력하세요 : ");
-			str3 = in.readLine();
-		}catch(Exception e) {
-			System.out.println("입력 실패");
-		}
 
 		try {	//입력한 데이터를 DB의 user테이블에 삽입
 			String sql = "INSERT INTO work(date, str1, str2, str3)";
@@ -97,13 +80,24 @@ public class TodayWork extends DBConnection{
 		}
 	}
 	
+	public void remove(int row) {
+		String date = arr[row][0];
+		String sql = "DELETE FROM work where date = " + date;
+
+		try {
+			st.executeUpdate(sql);
+		} catch(SQLException e) {
+			System.out.println("SQLException : " + e.getMessage());
+		}
+	}
+
+	
 	public static void main(String[] args) {
 		TodayWork t = new TodayWork();
 		
 		try {
 			t.inquiry();
 			t.print();
-			t.insert();
 		}catch(Exception e) {
 			System.out.println("DB 접속 불가");
 		}
