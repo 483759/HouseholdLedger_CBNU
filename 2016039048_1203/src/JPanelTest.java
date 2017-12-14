@@ -40,6 +40,7 @@ import javax.swing.ListSelectionModel;
 	 //private JTextField jtext;
 	 private JFrame frame1;
 	 
+	 
 	 private JPanelTest win;
 	 //InputForm form;
 
@@ -271,7 +272,7 @@ class MyActionListener6 implements ActionListener{
 	//수정버튼 클릭시
 	public void actionPerformed(ActionEvent e) {
 		
-		frame1=new JFrame("작성");
+		frame1=new JFrame("수정");
 		frame1.setLocation(200, 150);
 		frame1.setSize(400,400);
 		frame1.setLayout(null);
@@ -282,7 +283,8 @@ class MyActionListener6 implements ActionListener{
 		Checkbox income = new Checkbox("수입",group,false);
 		Checkbox expense = new Checkbox("지출",group,false);
 		
-	
+		
+		
 		Choice cate = new Choice();
 		cate.addItem("생활");
 		cate.addItem("외식");
@@ -378,8 +380,8 @@ class MyActionListener6 implements ActionListener{
 		frame1.add(yes);
 		
 			
-			
-	
+		
+		
 		
 		income.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -395,6 +397,7 @@ class MyActionListener6 implements ActionListener{
 				//지출이 선택되면
 				cate.enable();
 				
+				
 			}
 		});
 		no.addActionListener(new ActionListener(){
@@ -407,6 +410,8 @@ class MyActionListener6 implements ActionListener{
 		yes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			//작성창의 확인 버튼을 누르면
+				// TextArea -> getText() 쓰면 정보받아옴
+				// Choice -> getSelectedItem()
 				
 				
 			}
@@ -474,24 +479,6 @@ class JPanel04 extends JPanel{
 		this.win=win;
 		
 		
-		JLabel lblLbl = new JLabel("4번패널:");
-		lblLbl.setBounds(150,90,100,21); // x,y,width,height
-		add(lblLbl);
-		
-		textField = new JTextField();
-		textField.setBounds(200,90,116,21);
-		add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblLbl_1 = new JLabel("항목:");
-		lblLbl_1.setBounds(150, 130, 100, 21);
-		add(lblLbl_1);
-		
-		listField = new JPasswordField();
-		listField.setBounds(200,130,116,21);
-		add(listField);
-		
-		
 		jButton1 = new JButton("월별로 보기");
 		jButton1.setSize(100,20);
 		jButton1.setLocation(10,90);
@@ -512,13 +499,27 @@ class JPanel04 extends JPanel{
 		jButton4.setLocation(10,210);
 		add(jButton4);
 		
+		JButton writeBtn = new JButton("작성");
+		writeBtn.setSize(70,20);
+		writeBtn.setLocation(700,90);
+		add(writeBtn);
 		
+		
+		JButton eraseBtn = new JButton("삭제");
+		eraseBtn.setSize(70,20);
+		eraseBtn.setLocation(700,130);
+		add(eraseBtn);
 		
 		jButton1.addActionListener(new MyActionListener1());
 		jButton2.addActionListener(new MyActionListener2());
 		jButton3.addActionListener(new MyActionListener3());
 		jButton4.addActionListener(new MyActionListener4());
+		
+		writeBtn.addActionListener(new TodayWrite());
+		eraseBtn.addActionListener(new TodayErase());
+		
 	}
+	
 	class MyActionListener1 implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -544,6 +545,131 @@ class JPanel04 extends JPanel{
 		}
 	}
 }
+class TodayWrite implements ActionListener{
+	@Override
+	// 오늘의할일 작성
+	public void actionPerformed(ActionEvent e) {
+		
+		JFrame frame2 = new JFrame("오늘의 할일 작성");
+		frame2.setLocation(200, 150);
+		frame2.setSize(400,400);
+		frame2.setLayout(null);
+		
+		frame2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		
+		Choice year = new Choice();
+		year.addItem("2016");	year.addItem("2017");	year.addItem("2018");
+		
+		Choice month = new Choice();
+		month.addItem("1");	month.addItem("2");	month.addItem("3");
+		month.addItem("4");	month.addItem("5");	month.addItem("6");
+		month.addItem("7");	month.addItem("8");	month.addItem("9");
+		month.addItem("10");month.addItem("11");month.addItem("12");
+		
+		Choice date = new Choice();
+		date.addItem("1");	date.addItem("2");	date.addItem("3");
+		date.addItem("4");	date.addItem("4");	date.addItem("6");
+		date.addItem("7");	date.addItem("8");	date.addItem("9");
+		date.addItem("10");	date.addItem("11");	date.addItem("12");
+		date.addItem("13");	date.addItem("14");	date.addItem("15");
+		date.addItem("16");	date.addItem("17");	date.addItem("18");
+		date.addItem("19");	date.addItem("20");	date.addItem("21");
+		date.addItem("22");	date.addItem("23");	date.addItem("24");
+		date.addItem("25");	date.addItem("26");	date.addItem("27");
+		date.addItem("28");	date.addItem("29");	date.addItem("30");
+		date.addItem("31");	
+		
+		
+		year.setLocation(80,45);
+		frame2.add(year);
+		
+		JLabel year1= new JLabel("년");
+		year1.setBounds(140,48,20,20);
+		frame2.add(year1);
+		
+		month.setLocation(170,45);
+		frame2.add(month);
+		
+		JLabel month1= new JLabel("월");
+		month1.setBounds(220,48,20,20);
+		frame2.add(month1);
+		
+		date.setLocation(260,45);
+		frame2.add(date);
+		
+		JLabel date1= new JLabel("일");
+		date1.setBounds(310,48,20,20);
+		frame2.add(date1);
+		
+		
+		JLabel label1= new JLabel("할일1");
+		label1.setBounds(30,97,50,50);
+		frame2.add(label1);
+		
+		JTextField day1 = new JTextField();
+		day1.setBounds(80,110,250,25);
+		frame2.add(day1);
+		
+		JLabel label2= new JLabel("할일2");
+		label2.setBounds(30,167,50,50);
+		frame2.add(label2);
+		
+		JTextField day2 = new JTextField();
+		day2.setBounds(80,180,250,25);
+		frame2.add(day2);
+		
+		JLabel label3= new JLabel("할일3");
+		label3.setBounds(30,237,50,50);
+		frame2.add(label3);
+		
+		JTextField day3 = new JTextField();
+		day3.setBounds(80,250,250,25);
+		frame2.add(day3);
+		
+		
+		
+		JButton no = new JButton("취소");
+		no.setSize(60,25);
+		no.setLocation(120,330);
+		frame2.add(no);
+		
+		JButton yes = new JButton("확인");
+		yes.setSize(60,25);
+		yes.setLocation(190,330);
+		frame2.add(yes);
+		
+			
+		no.addActionListener(new ActionListener(){
+			//작성창의 취소 버튼을 누르면
+			public void actionPerformed(ActionEvent e) {
+				frame2.dispose();
+			}
+		});
+		
+		yes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			//작성창의 확인 버튼을 누르면
+				// TextArea -> getText() 쓰면 정보받아옴
+				// Choice -> getSelectedItem()
+				
+				
+			}
+		});
+		
+		
+		frame2.setVisible(true);
+		
+	}
+}
+class TodayErase implements ActionListener{
+	@Override
+	//오늘의할일 삭제
+	public void actionPerformed(ActionEvent e) {
+		
+		
+	}
+}
 
 class JPanel03 extends JPanel{
 	
@@ -566,25 +692,7 @@ class JPanel03 extends JPanel{
 		this.win=win;
 		
 		
-		
-		/*
-		JLabel lblLbl = new JLabel("3번패널:");
-		lblLbl.setBounds(150,90,100,21); // x,y,width,height
-		add(lblLbl);
-		
-		textField = new JTextField();
-		textField.setBounds(200,90,116,21);
-		add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblLbl_1 = new JLabel("항목:");
-		lblLbl_1.setBounds(150, 130, 100, 21);
-		add(lblLbl_1);
-		
-		listField = new JPasswordField();
-		listField.setBounds(200,130,116,21);
-		add(listField);
-		*/
+	
 		class ChartPanel extends JPanel{
 			 public void paintComponent(Graphics g){
 
